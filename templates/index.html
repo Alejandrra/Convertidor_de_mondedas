@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        .container { max-width: 400px; margin: auto; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; }
+        button { padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Convertor de monedas</h1>
+        <label for="base">From:</label>
+        <select id="base">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="MXN">MXN</option>
+        </select>
+
+        <label for="target">To:</label>
+        <select id="target">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="MXN">MXN</option>
+        </select>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" placeholder="Enter amount">
+
+        <button onclick="convert()">Convert</button>
+
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        function convert() {
+            const base = document.getElementById('base').value;
+            const target = document.getElementById('target').value;
+            const amount = document.getElementById('amount').value;
+
+            fetch(`/convert?base=${base}&target=${target}&amount=${amount}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = `${amount} ${base} = ${data.converted_amount.toFixed(2)} ${target}`;
+                });
+        }
+    </script>
+</body>
+</html>
